@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="FAMEBEAT: cuadros musicales personalizados en formato A4. Tu álbum enmarcado.">
+    <title>FAMEBEAT | Tu álbum enmarcado</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+        body { font-family: Arial, Helvetica, sans-serif; background: #f7f5f2; color: #171717; }
+        header { width: 100%; padding: 20px 7%; display: flex; justify-content: space-between; align-items: center; background: #fff; border-bottom: 1px solid #eaeaea; }
+        .logo { font-size: 28px; font-weight: 900; letter-spacing: 2px; }
+        .eslogan { margin-top: 4px; font-size: 12px; color: #777; letter-spacing: 1px; }
+        nav { display: flex; align-items: center; gap: 25px; }
+        nav a { text-decoration: none; color: #171717; font-size: 14px; }
+        nav a:hover { color: #a35b42; }
+        .boton-icono { border: none; outline: none; box-shadow: none; background: transparent; padding: 0; appearance: none; -webkit-appearance: none; cursor: pointer; color: #171717; font-size: 17px; }
+        .hero { min-height: 480px; padding: 80px 20px; display: flex; justify-content: center; align-items: center; text-align: center; }
+        .hero-contenido { max-width: 800px; }
+        .etiqueta { margin-bottom: 22px; font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: #95634e; }
+        .hero h1 { font-size: clamp(43px, 7vw, 78px); line-height: 1.05; letter-spacing: -3px; margin-bottom: 25px; }
+        .hero h1 span { font-weight: 300; }
+        .hero p { max-width: 580px; margin: auto; font-size: 18px; line-height: 1.7; color: #666; }
+        .boton { display: inline-block; margin-top: 32px; padding: 16px 32px; background: #171717; color: white; text-decoration: none; font-size: 13px; letter-spacing: 1px; transition: background 0.2s; }
+        .boton:hover { background: #95634e; }
+        .productos { padding: 75px 7%; background: #fff; }
+        .titulo-seccion { text-align: center; margin-bottom: 45px; }
+        .titulo-seccion h2 { font-size: clamp(28px, 4vw, 38px); margin-bottom: 12px; }
+        .titulo-seccion p { color: #777; line-height: 1.6; }
+        .productos-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; max-width: 1100px; margin: auto; }
+        .producto { padding: 16px 16px 25px; background: #f7f5f2; text-align: center; }
+        .producto-imagen { width: 100%; aspect-ratio: 210 / 297; object-fit: contain; display: block; background: #eeece8; }
+        .producto h3 { margin-top: 20px; font-size: 17px; line-height: 1.5; }
+        .precio { margin-top: 10px; font-size: 20px; font-weight: bold; }
+        .formato { margin-top: 8px; font-size: 13px; color: #777; }
+        .personalizar { display: inline-block; margin-top: 18px; padding: 11px 20px; border: 1px solid #171717; color: #171717; text-decoration: none; font-size: 13px; transition: all 0.2s; cursor: pointer; }
+        .personalizar:hover { background: #171717; color: #fff; }
+        .informacion { padding: 65px 7%; text-align: center; }
+        .informacion h2 { margin-bottom: 15px; font-size: 30px; }
+        .informacion p { max-width: 650px; margin: auto; line-height: 1.8; color: #666; }
+        footer { padding: 35px 20px; background: #171717; color: #fff; text-align: center; }
+        footer p { margin-top: 9px; font-size: 13px; color: #ccc; }
+        #panel-carrito { padding: 25px 7%; background: #fff; border-bottom: 1px solid #eee; }
+        #panel-carrito[hidden] { display: none; }
+        #panel-carrito h2 { margin-bottom: 15px; }
+        #productos-carrito { display: grid; gap: 15px; margin: 20px 0; }
+        .fila-carrito { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid #eee; }
+        .fila-carrito button, #panel-carrito > button { padding: 8px 12px; border: 1px solid #ddd; background: white; cursor: pointer; }
+        #panel-carrito > button { margin: 15px 8px 0 0; }
+        @media (max-width: 800px) {
+            header { flex-direction: column; gap: 20px; }
+            nav { justify-content: center; flex-wrap: wrap; gap: 16px; }
+            .productos-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+            .productos { padding: 55px 5%; }
+            .producto { padding: 10px 10px 20px; }
+            .hero { min-height: 420px; }
+        }
+        @media (max-width: 600px) { .fila-carrito { align-items: flex-start; flex-wrap: wrap; } }
+        @media (max-width: 480px) {
+            .productos-grid { grid-template-columns: 1fr; max-width: 340px; }
+            .hero h1 { letter-spacing: -1.5px; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div>
+            <div class="logo">FAMEBEAT</div>
+            <div class="eslogan">Tu álbum enmarcado.</div>
+        </div>
+        <nav>
+            <a href="#">Inicio</a>
+            <a href="#cuadros">Cuadros</a>
+            <a href="#personaliza">Personaliza</a>
+            <a href="#contacto">Contacto</a>
+            <button type="button" id="abrir-busqueda" class="boton-icono" aria-label="Buscar" title="Buscar">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <path d="m16 16 4 4"></path>
+                </svg>
+            </button>
+            <button type="button" id="abrir-carrito" class="boton-icono" aria-label="Abrir carrito" title="Abrir carrito">
+                🛒 <span id="contador-carrito">0</span>
+            </button>
+        </nav>
+    </header>
+
+    <div id="panel-carrito" hidden>
+        <h2>Tu carrito</h2>
+        <div id="productos-carrito"></div>
+        <p>Total: <strong id="total-carrito">0.00 €</strong></p>
+        <button type="button" id="vaciar-carrito">Vaciar carrito</button>
+        <button type="button" id="cerrar-carrito">Seguir comprando</button>
+    </div>
+
+    <main>
+        <section class="hero">
+            <div class="hero-contenido">
+                <div class="etiqueta">Música · Arte · Recuerdos</div>
+                <h1>Tu álbum.<br><span>Enmarcado.</span></h1>
+                <p>Convierte tus álbumes y canciones favoritas en cuadros que dan personalidad a tu espacio o en un regalo especial para alguien importante.</p>
+                <a href="#cuadros" class="boton">DESCUBRIR CUADROS</a>
+            </div>
+        </section>
+
+        <section class="productos" id="cuadros">
+            <div class="titulo-seccion">
+                <h2>Nuestros cuadros</h2>
+                <p>Tu música favorita, convertida en decoración.</p>
+            </div>
+            <div class="productos-grid">
+                <article class="producto">
+                    <img class="producto-imagen" src="img/productos/Dei%20V%20Flavorz%20Pack.png" alt="Cuadro musical Dei V Flavorz Pack">
+                    <h3>Dei V — Flavorz Pack</h3><p class="precio">15,00 €</p><p class="formato">A4 · 21 × 29,7 cm</p>
+                    <a href="#personaliza" class="personalizar">Elegir cuadro</a>
+                    <a href="#" class="personalizar" onclick="anadirAlCarrito('Dei V Flavorz Pack'); return false;">Añadir al carrito · 15 €</a>
+                </article>
+                <article class="producto">
+                    <img class="producto-imagen" src="img/productos/Dellafuente%20Brigado.png" alt="Cuadro musical Dellafuente">
+                    <h3>Dellafuente — Brígido</h3><p class="precio">15,00 €</p><p class="formato">A4 · 21 × 29,7 cm</p>
+                    <a href="#personaliza" class="personalizar">Elegir cuadro</a>
+                    <a href="#" class="personalizar" onclick="anadirAlCarrito('Dellafuente Brigado'); return false;">Añadir al carrito · 15 €</a>
+                </article>
+                <article class="producto">
+                    <img class="producto-imagen" src="img/productos/Cuadro%20Metri.png" alt="Cuadro Metri">
+                    <h3>Cuadro Metri</h3><p class="precio">15,00 €</p><p class="formato">A4 · 21 × 29,7 cm</p>
+                    <a href="#personaliza" class="personalizar">Elegir cuadro</a>
+                    <a href="#" class="personalizar" onclick="anadirAlCarrito('Cuadro Metri'); return false;">Añadir al carrito · 15 €</a>
+                </article>
+                <article class="producto">
+                    <img class="producto-imagen" src="img/productos/Azulejos%20de%20Corales.png" alt="Cuadro Azulejos de Corales">
+                    <h3>Azulejos de Corales</h3><p class="precio">15,00 €</p><p class="formato">A4 · 21 × 29,7 cm</p>
+                    <a href="#personaliza" class="personalizar">Elegir cuadro</a>
+                    <a href="#" class="personalizar" onclick="anadirAlCarrito('Azulejos de Corales'); return false;">Añadir al carrito · 15 €</a>
+                </article>
+                <article class="producto">
+                    <img class="producto-imagen" src="img/productos/El%20Baifo.png" alt="Cuadro musical El Baifo">
+                    <h3>El Baifo</h3><p class="precio">15,00 €</p><p class="formato">A4 · 21 × 29,7 cm</p>
+                    <a href="#personaliza" class="personalizar">Elegir cuadro</a>
+                    <a href="#" class="personalizar" onclick="anadirAlCarrito('El Baifo'); return false;">Añadir al carrito · 15 €</a>
+                </article>
+                <article class="producto">
+                    <img class="producto-imagen" src="img/productos/La%20Joia.png" alt="Cuadro musical La Joia">
+                    <h3>La Joia</h3><p class="precio">15,00 €</p><p class="formato">A4 · 21 × 29,7 cm</p>
+                    <a href="#personaliza" class="personalizar">Elegir cuadro</a>
+                    <a href="#" class="personalizar" onclick="anadirAlCarrito('La Joia'); return false;">Añadir al carrito · 15 €</a>
+                </article>
+                <article class="producto">
+                    <img class="producto-imagen" src="img/productos/Más%20Cara.png" alt="Cuadro musical Más Cara">
+                    <h3>Más Cara</h3><p class="precio">15,00 €</p><p class="formato">A4 · 21 × 29,7 cm</p>
+                    <a href="#personaliza" class="personalizar">Elegir cuadro</a>
+                    <a href="#" class="personalizar" onclick="anadirAlCarrito('Más Cara'); return false;">Añadir al carrito · 15 €</a>
+                </article>
+            </div>
+        </section>
+
+        <section class="informacion" id="personaliza">
+            <h2>Tu música, a tu manera</h2>
+            <p>¿Tienes un álbum o una canción especial en mente? Estamos preparando un espacio para que puedas elegir tu diseño musical favorito.</p>
+            <a href="#contacto" class="boton">QUIERO PERSONALIZAR</a>
+        </section>
+    </main>
+
+    <footer id="contacto">
+        <strong>FAMEBEAT</strong>
+        <p>Tu álbum enmarcado.</p>
+        <p>Cuadros musicales en formato A4.</p>
+        <p>© 2026 FAMEBEAT</p>
+    </footer>
+
+    <script>
+        const botonCarrito = document.getElementById("abrir-carrito");
+        const panelCarrito = document.getElementById("panel-carrito");
+        const listaCarrito = document.getElementById("productos-carrito");
+        const contadorCarrito = document.getElementById("contador-carrito");
+        const totalCarrito = document.getElementById("total-carrito");
+        const botonCerrar = document.getElementById("cerrar-carrito");
+        const botonVaciar = document.getElementById("vaciar-carrito");
+
+        let carrito = [];
+
+        botonCarrito.addEventListener("click", function () {
+            panelCarrito.hidden = !panelCarrito.hidden;
+        });
+
+        botonCerrar.addEventListener("click", function () {
+            panelCarrito.hidden = true;
+        });
+
+        botonVaciar.addEventListener("click", function () {
+            carrito = [];
+            actualizarCarrito();
+        });
+
+        function actualizarCarrito() {
+            listaCarrito.innerHTML = "";
+            let total = 0;
+            let unidades = 0;
+
+            carrito.forEach(function (producto, indice) {
+                total += producto.precio * producto.cantidad;
+                unidades += producto.cantidad;
+
+                const fila = document.createElement("div");
+                fila.className = "fila-carrito";
+
+                const nombre = document.createElement("span");
+                nombre.textContent = producto.nombre + " — " +
+                    (producto.precio * producto.cantidad).toFixed(2) + " €";
+
+                const cantidad = document.createElement("span");
+                cantidad.textContent = "Cantidad: " + producto.cantidad;
+
+                const quitar = document.createElement("button");
+                quitar.type = "button";
+                quitar.textContent = "Eliminar";
+                quitar.addEventListener("click", function () {
+                    carrito.splice(indice, 1);
+                    actualizarCarrito();
+                });
+
+                fila.append(nombre, cantidad, quitar);
+                listaCarrito.appendChild(fila);
+            });
+
+            contadorCarrito.textContent = unidades;
+            totalCarrito.textContent = total.toFixed(2) + " €";
+        }
+
+        function anadirAlCarrito(nombre) {
+            const existente = carrito.find(function (producto) {
+                return producto.nombre === nombre;
+            });
+
+            if (existente) {
+                existente.cantidad++;
+            } else {
+                carrito.push({ nombre: nombre, precio: 15, cantidad: 1 });
+            }
+
+            actualizarCarrito();
+            panelCarrito.hidden = false;
+        }
+    </script>
+</body>
+</html>
